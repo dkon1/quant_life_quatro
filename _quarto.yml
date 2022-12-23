@@ -1,0 +1,23 @@
+project:
+  type: book
+
+book:
+  title: "quant_life_quatro"
+  author: "Jane Doe"
+  date: "12/23/2022"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
