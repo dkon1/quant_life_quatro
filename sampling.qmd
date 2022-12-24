@@ -33,10 +33,11 @@ The sample mean $\bar X$ is the average of a sample of experimental measurements
 
 In this and the following sections we will describe the variation in the sample mean. It is a remarkable fact that we can describe this distribution, called the *sampling distribution of the mean*, in general, and connect it to the true distribution of the variable in the population. The first result describes the mean of the sampling distribution:
 
-```{theorem, LLN1}
+:::{.callout-important}
+## Theorem
 (Law of Large Numbers, part 1) For a sample of $n$ independent\index{independence!sampling} measurements with the same distribution with mean $\mu$, the sample mean approaches $\mu$ as $n$ becomes large. More formally, if $X_1, X_2, ... , X_n$ are independent, identically distributed random variables with mean $\mu$, then:
 $$ \lim_{n \rightarrow \infty}  \frac{X_1 + X_2 + ... + X_n} {n} =  \lim_{n \rightarrow \infty}  \bar X = \mu $$
-```
+:::
 
 This result is called the Law of Large Numbers and it is intuitive: as the size of an unbiased random sample increases, its sample mean approaches the true mean. If we are dealing with a finite population, then of course if the sample includes the entire population, its mean will be the true mean.
 
@@ -46,10 +47,11 @@ One consequence of this is that the best estimator for the true mean is the samp
 
 As mentioned above, repeated samples from the same populations have varying sample means, and we would like to describe the variance. This variation depends on the sample size, as suggested by the law of large numbers, for large sample sizes the sample mean approaches the true mean. The intuitive fact is that the larger the sample size, the less variation is in the sampling distribution.
 
-```{theorem, LLN2}
+:::{.callout-important}
+## Theorem
 **(Law of Large Numbers, part 2)** For a sample of $n$ independent measurements with the same distribution with variance $\sigma^2$, the variance of the sampling distribution for a sufficiently large $n$ approaches the variance divided by the sample size:
 $$ Var(\bar X) = \frac{\sigma^2}{n}$$
-```
+:::
 
 In other words, for a sample of $n$ independent measurements the variance of the sample mean is inversely proportional to the sample size. Below I will sketch a calculation to justify (if not prove) the theorem. Suppose that the distribution of experimental measurements has the expected value of $\mu$ and the variance $\sigma^2$. Then for a sample of $n$ independent measurements $\{X_i\}$, the variance of the sample mean is the following:
 
@@ -87,11 +89,12 @@ Instead, in order to extract probability from a density function, it must be int
 
 Now that we have a nodding acquaintance with the normal distribution, here is its most wonderful property: the means of samples, for large sample sizes, are distributed normally.
 
-```{theorem, CLT}
+:::{.callout-important}
+## Theorem
 **(Central Limit Theorem)** The distribution of the mean of a sample of $n$ independent\index{independence!sampling}, identically distributed random variables with mean $\mu$ and standard deviation $\sigma$ approaches for large $n$ the \emph{normal distribution} with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$. If the above conditions are met, the probability that a sample mean will fall between values $a$ and $b$ is given by the integral of the probability density function:
 
 $$ P(a < \bar X < b) = \sqrt{\frac{n}{2\pi \sigma^2}} \int_{a} ^b e^{-\frac{(x-\mu)^2}{2 \sigma^2/n}}dx$$
-```
+:::
 
 This theorem gifts us the ability to predict how widely the means of a sample can vary around the true mean. If you know the true mean $\mu$, the true standard deviation $\sigma$, and the sample size $n$ is large enough (ignoring for a second what that means exactly) then the probability of the sample mean being off by 0.1 from the true mean in either direction is: $$ P(\mu-0.1< \bar X < \mu+0.1) = \sqrt{\frac{n}{2\pi \sigma^2}} \int_{\mu-0.1} ^{\mu+0.1} e^{-\frac{(x-\mu)^2}{2 \sigma^2/n}}dx$$
 

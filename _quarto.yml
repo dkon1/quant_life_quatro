@@ -4,8 +4,14 @@ project:
 book:
   title: "Quantifying Life"
   author: "Dmitry Kondrashov"
+  cover-image: Kondrashov_Comp.jpeg
   favicon: Kondrashov_Comp.jpeg
   twitter-card: true
+  search: true
+  repo-url: https://github.com/dkon1/quant_life_quatro
+  downloads: [pdf, epub]
+  site-url: https://dkon1.github.io/quant_life_quatro
+  page-navigation: true
   chapters:
     - index.qmd
     - counting.qmd

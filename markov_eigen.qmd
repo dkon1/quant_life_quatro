@@ -136,9 +136,10 @@ $$ P(t) =c_1 \lambda_1^t \vec v_1 +c_2 \lambda_2^t \vec v_2 $$
 
 The constants $c_1, c_2$ are determined by the initial conditions, while the constants $\lambda_1, \lambda_2$ are the eigenvalues and the vectors $\vec v_1, \vec v_2$ are the eigenvectors of the matrix $M$. This expression is also true for Markov models of any number states, except that they have as many eigenvalues and eigenvectors as the dimensionality of the transition matrix. This is a hugely important development, because it allows us to predict how quickly the probability vectors converge to the stationary distribution. First, we need to use the following theorem:
 
-```{theorem, theo-frob}
+:::{.callout-important}
+## Theorem
 (Frobenius) A Markov transition matrix $M$, characterized by having all nonnegative elements between 0 and 1, and whose columns all sum up to 1, has eigenvalues that are no greater than 1 in absolute value, including at least one eigenvalue equal to 1.
-```
+:::
 
 This theorem has an immediate important consequence for the dynamics of the probability vector. According to our formula describing the time evolution of the probability vector, the eigenvalues are raised to the power $t$, which is the number of time steps. Therefore, for any eigenvalue which is less than 1, the number $\lambda^t$ grows smaller and approaches 0 as time goes on. Since the Frobenius theorem says that the eigenvalues cannot be greater than 1, the terms in the expression for the probability vector decay, except for the ones which are equal to 1 or to -1. The eigenvectors with eigenvalue 1 correspond to the stationary distribution that we introduced in the last chapter, and true to their name, they remain unchanged by time, since $1^t =1$ for all time. The ones with eigenvalue of -1 are a strange case, because they oscillate between positive and negative values, without decaying in absolute value.
 

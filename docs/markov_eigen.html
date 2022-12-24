@@ -152,6 +152,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Quantifying Life</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/dkon1/quant_life_quatro" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Quantifying-Life.pdf">
+            <i class="bi bi-bi-file-pdf pe-1"></i>
+          Download PDF
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Quantifying-Life.epub">
+            <i class="bi bi-bi-journal pe-1"></i>
+          Download ePub
+          </a>
+        </li>
+    </ul>
+</div>
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -423,8 +441,18 @@ v_1 = - v_2 \times  1/(2-1) = - v_2
 <p>The last step is due to definition <span class="math inline">\(\ref{def:eigen}\)</span> of eigenvectors and eigenvalues, which transformed matrix multiplication into multiplication by the corresponding eigenvalues. To see how useful this is, let us propagate the probability vector one more step: <span class="math display">\[ P(2) = M \times P(1) =  M \times ( c_1 \lambda_1\vec v_1 + c_2 \lambda_2 \vec v_2) =  c_1 \lambda_1^2\vec v_1 + c_2 \lambda_2^2 \vec v_2 \]</span></p>
 <p>It should be clear that each matrix multiplication results in one additional multiplication of each eigenvector by its eigenvalue, so this allows us to write the general expression for the probability vector any number of time steps <span class="math inline">\(t\)</span> in the future, given the weights of the initial probability vector <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span>: <span class="math display">\[ P(t) =c_1 \lambda_1^t \vec v_1 +c_2 \lambda_2^t \vec v_2 \]</span></p>
 <p>The constants <span class="math inline">\(c_1, c_2\)</span> are determined by the initial conditions, while the constants <span class="math inline">\(\lambda_1, \lambda_2\)</span> are the eigenvalues and the vectors <span class="math inline">\(\vec v_1, \vec v_2\)</span> are the eigenvectors of the matrix <span class="math inline">\(M\)</span>. This expression is also true for Markov models of any number states, except that they have as many eigenvalues and eigenvectors as the dimensionality of the transition matrix. This is a hugely important development, because it allows us to predict how quickly the probability vectors converge to the stationary distribution. First, we need to use the following theorem:</p>
-<div class="cell">
-<pre class="theorem cell-code"><code>(Frobenius) A Markov transition matrix $M$, characterized by having all nonnegative elements between 0 and 1, and whose columns all sum up to 1, has eigenvalues that are no greater than 1 in absolute value, including at least one eigenvalue equal to 1.</code></pre>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>(Frobenius) A Markov transition matrix <span class="math inline">\(M\)</span>, characterized by having all nonnegative elements between 0 and 1, and whose columns all sum up to 1, has eigenvalues that are no greater than 1 in absolute value, including at least one eigenvalue equal to 1.</p>
+</div>
 </div>
 <p>This theorem has an immediate important consequence for the dynamics of the probability vector. According to our formula describing the time evolution of the probability vector, the eigenvalues are raised to the power <span class="math inline">\(t\)</span>, which is the number of time steps. Therefore, for any eigenvalue which is less than 1, the number <span class="math inline">\(\lambda^t\)</span> grows smaller and approaches 0 as time goes on. Since the Frobenius theorem says that the eigenvalues cannot be greater than 1, the terms in the expression for the probability vector decay, except for the ones which are equal to 1 or to -1. The eigenvectors with eigenvalue 1 correspond to the stationary distribution that we introduced in the last chapter, and true to their name, they remain unchanged by time, since <span class="math inline">\(1^t =1\)</span> for all time. The ones with eigenvalue of -1 are a strange case, because they oscillate between positive and negative values, without decaying in absolute value.</p>
 <p>We now have the skills to answer the following question of practical importance: how quickly does the probability vector approach the stationary distribution? (There may be more than one stationary distribution vector, but that doesn’t change the analysis.) This depends on how fast the contributions of other, non-stationary eigenvectors decay. If one of them has an eigenvalue of -1, then its contribution never decays - we saw an example of that in the cyclic 2-state matrix in chapter 12. If all of the eigenvalues other than the stationary one are less than 1 in absolute value, then all of them decay to zero, but at different rates. The one that decays slowest is the largest of the eigenvalues which are less than one - the second-largest, sometimes called the subdominant eigenvalue. This is the eigenvalue which determines the rate of convergence to the stationary distribution because it is the “last person standing” of the non-stationary eigenvalues, after the others have all vanished into insignificance.</p>
@@ -437,19 +465,19 @@ v_1 = - v_2 \times  1/(2-1) = - v_2
 <p>R has a standard set of functions to handle linear algebra computations. One of the most important of those is the calculation of eigenvectors and eigenvalues, also known as <em>diagonalization</em> of a matrix, for reasons you’ll understand if you take a proper linear algebra course, as I strongly recommend for anyone who intends to be involved in quantitative biology.</p>
 <p>The function to calculate the special numbers and vectors is <code>eigen()</code>, and the name of the matrix goes between the parentheses. The function returns a data frame as its output, with <code>$values</code> and <code>$vectors</code> storing the eigenvalues and the eigenvectors, respectively. Here is a script to define the matrix we analyzed in the examples in section <span class="math inline">\(\ref{sec:math13}\)</span> and then calculate and print out its eigenvalues and eigenvectors:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,  <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>),<span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(test.matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>test.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,  <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>),<span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(test.matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    2    1
 [2,]    2    3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">eigen</span>(test.matrix)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">eigen</span>(test.matrix)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           [,1]       [,2]
 [1,] -0.4472136 -0.7071068
@@ -458,51 +486,51 @@ v_1 = - v_2 \times  1/(2-1) = - v_2
 </div>
 <p>The resulting eigenvalues and 4 and 1, just as we computed above. However, the situation with eigenvectors is trickier. In the R output they are presented as column vectors, and you may notice that they have the same ratio of elements as the calculated eigenvectors, but the numbers may appear strange. As we discussed, the eigenvector for a particular eigenvalue can be multiplied by any constant and still be a valid eigenvector. R (and other computational tools) thus has a choice about which eigenvector to output, and it typically prefers to <em>normalize</em> its eigenvectors by making sure their length (Euclidean norm) is equal to 1. You may observe that if you take square the two elements of one of the eigenvectors in the output and add them up, the result will be 1. This is convenient for some purposes, but doesn’t make for clean looking vectors in terms of the elements. But since we can multiply (or divide) the eigenvector by any constant, we can choose to make it look cleaner, for instance by making sure one of its elements is equal to 1. The next script illustrates how to make that happen by dividing each eigenvector by the value of its first element, which results in the same form of eigenvectors that we wrote down in the analytic solution:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>eigen1<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">1</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">1</span>,<span class="dv">1</span>]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>eigen1<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">1</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>eigen2<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">2</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">1</span>,<span class="dv">2</span>]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>eigen2<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">2</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1 -1</code></pre>
 </div>
 </div>
 <p>Let us now analyze a transition matrix, for example one that we investigated in the last subsection of section <span class="math inline">\(\ref{sec:math13}\)</span>. This is how I obtained the eigenvalues and eigenvectors that were used to make predictions about the evolution of the probability vector. One important issue here is how best to normalize the eigenvectors. The eigenvector corresponding the eigenvalue 1 is (a multiple of) the stationary distribution vector, but in order to make it a probability distribution vector, its elements must add up to 1. The way to ensure this property is to divide the eigenvector by the sum of its elements. The two other eigenvector are not probability vectors, in fact they both contain negative elements, so it doesn’t make sense to normalize them the same way. Any normalization of these vectors is arbitrary, so I choose to divide each by the value of one of its elements. Notice one more strange thing: the two non-stationary eigenvectors each contain a very small number on the order of <span class="math inline">\(10^{-16}\)</span>. You may remember from section <span class="math inline">\(\ref{sec:comp1}\)</span> that this is the limit of precision for storing numbers in R, so these values are not real, they are errors, and instead should be replaced with zeros.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>trans.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.8</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.7</span>),<span class="at">nrow=</span><span class="dv">3</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(trans.matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trans.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.8</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.7</span>),<span class="at">nrow=</span><span class="dv">3</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(trans.matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]  0.8  0.1  0.1
 [2,]  0.1  0.8  0.2
 [3,]  0.1  0.1  0.7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">eigen</span>(trans.matrix)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">eigen</span>(trans.matrix)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.0 0.7 0.6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result<span class="sc">$</span>vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          [,1]          [,2]          [,3]
 [1,] 0.5656854 -7.071068e-01 -7.101010e-16
 [2,] 0.7071068  7.071068e-01 -7.071068e-01
 [3,] 0.4242641  3.330669e-16  7.071068e-01</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>eigen1<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(result<span class="sc">$</span>vectors[,<span class="dv">1</span>])</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>eigen1<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(result<span class="sc">$</span>vectors[,<span class="dv">1</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3333333 0.4166667 0.2500000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>eigen2<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">2</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">1</span>,<span class="dv">2</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>eigen2<span class="ot">&lt;-</span>result<span class="sc">$</span>vectors[,<span class="dv">2</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1.000000e+00 -1.000000e+00 -4.710277e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>eigen3<span class="ot">&lt;-</span> result<span class="sc">$</span>vectors[,<span class="dv">3</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">2</span>,<span class="dv">3</span>]</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>eigen3<span class="ot">&lt;-</span> result<span class="sc">$</span>vectors[,<span class="dv">3</span>]<span class="sc">/</span>result<span class="sc">$</span>vectors[<span class="dv">2</span>,<span class="dv">3</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eigen3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1.004235e-15  1.000000e+00 -1.000000e+00</code></pre>
 </div>
@@ -510,34 +538,34 @@ v_1 = - v_2 \times  1/(2-1) = - v_2
 <p>We now have the tools to calculate the eigenvalues and eigenvectors of transition matrices, and we can use them to predict two things: 1) the stationary distribution, which is the properly normalized eigenvector with eigenvalue 1, and 2) how quickly probability vectors converge to the stationary distribution, which depends on the second-largest eigenvalue. The first task was already accomplished in the script above.</p>
 <p>The second question needs clarification: what does it mean to “converge”, that is, how close does the probability distribution need to be to the stationary one, before we can say it converged? The answer is necessarily arbitrary, because a probability vector never actually reaches the stationary distribution unless the initial vector is stationary. Distances between vectors are typically measured using the standard Euclidean definition of distance (the square root of the sum of the squares of differences of the elements). The following R script propagates an initial probability vector for 30 time steps, and at each step calculates the distance of the probability vector to the stationary vector (which we calculated above).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>nstep <span class="ot">&lt;-</span> <span class="dv">30</span> <span class="co"># set number of time steps</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>stat.vec <span class="ot">&lt;-</span> eigen1 <span class="co"># set the stationary distribution</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>prob.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>) </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set the initial probability vector</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>dist.vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,nstep) <span class="co"># initialize distance vector</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>dist.vec[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nstep) { </span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># propagate the probability vector</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  prob.vec <span class="ot">&lt;-</span> trans.matrix <span class="sc">%*%</span> prob.vec</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  dist.vec[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>nstep <span class="ot">&lt;-</span> <span class="dv">30</span> <span class="co"># set number of time steps</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>stat.vec <span class="ot">&lt;-</span> eigen1 <span class="co"># set the stationary distribution</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>prob.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>) </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set the initial probability vector</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>dist.vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,nstep) <span class="co"># initialize distance vector</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>dist.vec[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nstep) { </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># propagate the probability vector</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  prob.vec <span class="ot">&lt;-</span> trans.matrix <span class="sc">%*%</span> prob.vec</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  dist.vec[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The distance to the stationary vector as a function of time is plotted in figure <span class="math inline">\(\ref{fig:mixing_time}\)</span> along with the exponential decay of the second leading eigenvalue <span class="math inline">\(0.7^t\)</span> over the same number of time steps. While initially the two are not identical, over time the contribution of the smaller eigenvalue becomes insignificant and the second-leading eigenvalue describes the approach of the probability vector to the stationary distribution. The effect of choosing a different initial probability vector is not very large, with the exception of the case when the initial vector is exactly the stationary distribution (in which case the distance is zero initially and remains zero) or exactly the eigenvector with the smaller eigenvalue, in which case the smallest eigenvalue governs the convergence.</p>
 <div class="cell" data-layout-align="center" data-fig.asp="0.75">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist.vec,<span class="at">xlab=</span><span class="st">'time step'</span>, <span class="at">ylab=</span><span class="st">'distance from stationary distribution'</span>,<span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">cex.axis=</span><span class="fl">1.5</span>,<span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>steps<span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">:</span>nstep <span class="co"># vector of time steps </span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the exponential decay of the eigenvalue</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(steps,<span class="fl">0.7</span><span class="sc">^</span>steps,<span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">3</span>) </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>prob.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>) <span class="co"># set the initial probability vector</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>dist.vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,nstep) <span class="co"># initialize distance vector</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>dist.vec[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nstep) { <span class="co"># propagate the probability vector</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  prob.vec <span class="ot">&lt;-</span> trans.matrix <span class="sc">%*%</span> prob.vec</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  dist.vec[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist.vec,<span class="at">xlab=</span><span class="st">'time step'</span>, <span class="at">ylab=</span><span class="st">'distance from stationary distribution'</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">cex.axis=</span><span class="fl">1.5</span>,<span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a> <span class="co"># plot the exponential decay of the eigenvalue</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(steps,<span class="fl">0.7</span><span class="sc">^</span>steps,<span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist.vec,<span class="at">xlab=</span><span class="st">'time step'</span>, <span class="at">ylab=</span><span class="st">'distance from stationary distribution'</span>,<span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">cex.axis=</span><span class="fl">1.5</span>,<span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>steps<span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">:</span>nstep <span class="co"># vector of time steps </span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the exponential decay of the eigenvalue</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(steps,<span class="fl">0.7</span><span class="sc">^</span>steps,<span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">3</span>) </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>prob.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>) <span class="co"># set the initial probability vector</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>dist.vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,nstep) <span class="co"># initialize distance vector</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>dist.vec[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nstep) { <span class="co"># propagate the probability vector</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  prob.vec <span class="ot">&lt;-</span> trans.matrix <span class="sc">%*%</span> prob.vec</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  dist.vec[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((prob.vec <span class="sc">-</span>stat.vec)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist.vec,<span class="at">xlab=</span><span class="st">'time step'</span>, <span class="at">ylab=</span><span class="st">'distance from stationary distribution'</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">cex.axis=</span><span class="fl">1.5</span>,<span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a> <span class="co"># plot the exponential decay of the eigenvalue</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(steps,<span class="fl">0.7</span><span class="sc">^</span>steps,<span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
