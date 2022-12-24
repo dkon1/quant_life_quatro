@@ -14,6 +14,10 @@ book:
     - linreg.qmd
     - independence.qmd
     - bayes.qmd
+    - sampling.qmd
+    - lindiff.qmd
+    - graph_odes.qmd
+    - ode_sols.qmd
     - summary.qmd
     - references.qmd
 
