@@ -4,7 +4,8 @@ project:
 book:
   title: "Quantifying Life"
   author: "Dmitry Kondrashov"
-  date: "12/23/2022"
+  favicon: Kondrashov_Comp.jpeg
+  twitter-card: true
   chapters:
     - index.qmd
     - counting.qmd
@@ -18,6 +19,10 @@ book:
     - lindiff.qmd
     - graph_odes.qmd
     - ode_sols.qmd
+    - markov_model.qmd
+    - markov_evol.qmd
+    - markov_stat.qmd
+    - markov_eigen.qmd
     - summary.qmd
     - references.qmd
 
