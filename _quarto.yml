@@ -1,13 +1,16 @@
 project:
   type: book
-
+  output-dir: docs
 book:
-  title: "quant_life_quatro"
-  author: "Jane Doe"
+  title: "Quantifying Life"
+  author: "Dmitry Kondrashov"
   date: "12/23/2022"
   chapters:
     - index.qmd
-    - intro.qmd
+    - counting.qmd
+    - functions.qmd
+    - descriptive.qmd
+    - probdist.qmd
     - summary.qmd
     - references.qmd
 
