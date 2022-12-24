@@ -1,7 +1,7 @@
 # Functions and their graphs
 
 > Some fathers, if you ask them for the time of day, spit silver dollars.\
-> Donald Barthelme, *The Dead Father*
+> --Donald Barthelme, *The Dead Father*
 
 Mathematical models describe how various quantities affect each other. In the last chapter we learned that these descriptions can be written down, often in the form of an equation. For instance, we can describe the total volume of blood pumped over a period of time as the product of stroke volume, the heart rate and the number of minutes, which can be written as an equation. The different quantities have their own meaning and roles, depending on what they stand for. To better describe how these quantities are related we use the deep idea of mathematical functions. In this chapter you will learn to do the following:
 

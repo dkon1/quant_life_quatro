@@ -1,6 +1,6 @@
 # Random variables and distributions
 
-> What is there then that can be taken as true? Perhaps only this one thing, that nothing at all is certain. -- Rene Descartes
+> What is there then that can be taken as true? Perhaps only this one thing, that nothing at all is certain. --Rene Descartes
 
 Mathematical models can be divided into *deterministic* and *stochastic* models. Deterministic models assume that the future can be perfectly predicted based on complete information of the past. Stochastic models instead assume that even perfect knowledge of the past does not allow one to predict the future with certainty.
 

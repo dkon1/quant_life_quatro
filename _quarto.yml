@@ -11,6 +11,9 @@ book:
     - functions.qmd
     - descriptive.qmd
     - probdist.qmd
+    - linreg.qmd
+    - independence.qmd
+    - bayes.qmd
     - summary.qmd
     - references.qmd
 
