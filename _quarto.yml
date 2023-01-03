@@ -20,6 +20,7 @@ book:
     - probdist.qmd
     - linreg.qmd
     - independence.qmd
+    - hypo_test.qmd
     - bayes.qmd
     - sampling.qmd
     - lindiff.qmd

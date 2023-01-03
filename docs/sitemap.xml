@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/markov_eigen.html</loc>
-    <lastmod>2022-12-24T21:54:38.698Z</lastmod>
+    <lastmod>2023-01-03T04:22:27.079Z</lastmod>
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/index.html</loc>
-    <lastmod>2022-12-24T21:57:08.414Z</lastmod>
+    <lastmod>2023-01-03T04:22:28.026Z</lastmod>
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/summary.html</loc>
-    <lastmod>2022-12-24T21:36:30.724Z</lastmod>
+    <lastmod>2023-01-03T04:22:27.079Z</lastmod>
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/references.html</loc>
-    <lastmod>2022-12-24T21:35:57.573Z</lastmod>
+    <lastmod>2023-01-03T04:22:27.079Z</lastmod>
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/markov_evol.html</loc>
-    <lastmod>2022-12-24T21:36:33.767Z</lastmod>
+    <lastmod>2023-01-03T04:22:27.077Z</lastmod>
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/counting.html</loc>
@@ -30,10 +30,42 @@
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/sampling.html</loc>
-    <lastmod>2022-12-24T21:57:19.160Z</lastmod>
+    <lastmod>2023-01-03T04:22:27.073Z</lastmod>
   </url>
   <url>
     <loc>https://dkon1.github.io/quant_life_quatro/bayes.html</loc>
     <lastmod>2022-12-24T21:57:43.862Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/linreg.html</loc>
+    <lastmod>2023-01-03T04:22:27.071Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/independence.html</loc>
+    <lastmod>2023-01-03T04:22:27.072Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/hypo_test.html</loc>
+    <lastmod>2023-01-03T04:22:27.072Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/lindiff.html</loc>
+    <lastmod>2023-01-03T04:22:27.074Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/graph_odes.html</loc>
+    <lastmod>2023-01-03T04:22:27.075Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/ode_sols.html</loc>
+    <lastmod>2023-01-03T04:22:27.076Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/markov_model.html</loc>
+    <lastmod>2023-01-03T04:22:27.077Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dkon1.github.io/quant_life_quatro/markov_stat.html</loc>
+    <lastmod>2023-01-03T04:22:27.078Z</lastmod>
   </url>
 </urlset>
